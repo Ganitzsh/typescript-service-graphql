@@ -1,3 +1,4 @@
+import { User } from './type';
 import * as UserService from './service';
 
-export { UserService };
+export { User, UserService };
