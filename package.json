@@ -43,7 +43,7 @@
     "env": "^0.0.2",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
-    "mongodb": "^4.13.0",
+    "mongodb": "^5.0.0",
     "winston": "^3.8.2"
   }
 }
