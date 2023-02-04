@@ -4,12 +4,12 @@ import { Context } from '../context';
 
 import * as user from './user';
 
-export type Resolver<TParent = unknown, TArgs = unknown> = (
+export type Resolver<TParent = unknown, TArgs = unknown, TRes = unknown> = (
   parent: TParent,
   args: TArgs,
   contextValue: Context,
   info: GraphQLResolveInfo,
-) => unknown;
+) => Promise<TRes>;
 
 export type Resolvers = { [key: string]: Resolver };
 

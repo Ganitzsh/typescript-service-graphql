@@ -1,9 +1,46 @@
-import { Resolvers } from '.';
+import { Resolver } from '.';
 
-export const query: Resolvers = {
-  users: () => [],
+import { UserService } from '../../domain/user';
+
+export interface User {
+  id: string;
+
+  firstName: string;
+  lastName: string;
+}
+
+type Query = {
+  users: Resolver<
+    undefined,
+    { limit?: number },
+    {
+      data: User[];
+      cursor?: string;
+    }
+  >;
 };
 
-export const mutation: Resolvers = {
-  addUser: () => [],
+export const query: Query = {
+  users: async (_, args) => {
+    const { users, cursor } = await UserService.listUsers({
+      limit: args.limit,
+    });
+
+    return {
+      data: users,
+      cursor,
+    };
+  },
+};
+
+export const mutation: {
+  addUser: Resolver<
+    null,
+    {
+      firstName: string;
+      lastName: string;
+    }
+  >;
+} = {
+  addUser: (_, args) => UserService.addUser(args.firstName, args.lastName),
 };
