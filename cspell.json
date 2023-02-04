@@ -1,0 +1,29 @@
+{
+  "dictionaries": [],
+  "flagWords": [],
+  "ignorePaths": [
+    "__fixtures__/**",
+    ".dockerignore",
+    ".eslintignore",
+    ".eslintrc",
+    ".gitignore",
+    ".husky/**",
+    ".npmrc",
+    ".prettierignore",
+    ".vscode",
+    "*.config.js",
+    "*.jinja",
+    "*.json",
+    "*.log",
+    "*.m4",
+    "*.pb",
+    "*.yaml",
+    "coverage/**",
+    "lib/**",
+    "node_modules/**",
+    "src/**/*.snap"
+  ],
+  "language": "en-US",
+  "version": "0.2",
+  "words": ["opentelemetry", "npmrc"]
+}
