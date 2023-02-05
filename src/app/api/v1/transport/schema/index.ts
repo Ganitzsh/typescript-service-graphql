@@ -1,19 +1,20 @@
-import * as User from './user';
+import { mergeTypeDefs } from '@graphql-tools/merge';
+import gql from 'graphql-tag';
 
-const typeDefs = `#graphql
+import invoice from './invoice';
+
+const typeDefs = gql`
   interface Node {
     id: ID!
   }
 
-  ${User.schema}
-
   type Query {
-    ${User.query}
+    _empty: String
   }
 
   type Mutation {
-    ${User.mutation}
+    _empty: String
   }
 `;
 
-export default typeDefs;
+export default mergeTypeDefs([invoice, typeDefs]);

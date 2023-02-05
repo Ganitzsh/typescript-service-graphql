@@ -1,0 +1,7 @@
+overwrite: true
+schema: 'http://localhost:4000'
+generates:
+  src/app/api/v1/transport/schema/codegen.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-resolvers'
