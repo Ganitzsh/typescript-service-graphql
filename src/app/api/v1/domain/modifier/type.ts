@@ -11,4 +11,5 @@ export interface Modifier {
   type: ModifierType;
   category: ModifierCategory;
   value: number;
+  label: string;
 }

@@ -2,10 +2,9 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 import gql from 'graphql-tag';
 
 const taxRate = gql`
-  enum TaxRate {
-    Standard
-    Low
-    None
+  type TaxRate {
+    label: String!
+    value: String!
   }
 `;
 
@@ -22,6 +21,7 @@ const modifier = gql`
   type Modifier {
     type: ModifierType!
     category: ModifierCategory!
+    label: String!
     value: String!
   }
 `;
@@ -63,7 +63,7 @@ const phase = gql`
 export const address = gql`
   type Address {
     addressLine1: String!
-    addressLine2: String!
+    addressLine2: String
     city: String!
     country: String!
     zipCode: String!
@@ -97,6 +97,8 @@ export const invoice = gql`
 
     issuer: Company
     recipient: Company
+
+    finalized: Boolean!
   }
 `;
 

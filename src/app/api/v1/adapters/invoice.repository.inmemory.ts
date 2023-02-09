@@ -16,6 +16,7 @@ const database: Invoice[] = [
       type: ModifierType.Amount,
       category: ModifierCategory.Fee,
       value: 34.23,
+      label: 'Service fee',
     },
     subtotal: 123.0,
     total: 144.0,

@@ -5,17 +5,12 @@ import {
   ModifierType,
 } from '../../domain/modifier/type';
 import { PhaseService } from '../../domain/phase';
-import { ItemType, Phase, TaxRate } from '../../domain/phase/type';
+import { ItemType, Phase } from '../../domain/phase/type';
 
 import * as graphqlTypes from '../schema/codegen';
 
 import { Context } from '../context';
 
-const mapTaxRate: Record<TaxRate, graphqlTypes.TaxRate> = {
-  [TaxRate.None]: graphqlTypes.TaxRate.None,
-  [TaxRate.Low]: graphqlTypes.TaxRate.Low,
-  [TaxRate.Standard]: graphqlTypes.TaxRate.Standard,
-};
 const mapItemType: Record<ItemType, graphqlTypes.ItemType> = {
   [ItemType.PerHour]: graphqlTypes.ItemType.PerHour,
   [ItemType.Quantity]: graphqlTypes.ItemType.Quantity,
@@ -36,6 +31,7 @@ const mapModifier = (modifier: Modifier): graphqlTypes.Modifier => ({
   type: mapModifierType[modifier.type],
   category: mapModifierCategory[modifier.category],
   value: modifier.value.toString(),
+  label: modifier.label,
 });
 
 const mapPhase = (phase: Phase): graphqlTypes.Phase => ({
@@ -45,8 +41,11 @@ const mapPhase = (phase: Phase): graphqlTypes.Phase => ({
     ...costItem,
     item: {
       ...costItem.item,
+      taxRate: {
+        label: costItem.item.taxRate.label,
+        value: (costItem.item.taxRate.value * 100).toFixed(1),
+      },
       rate: costItem.item.rate.toString(),
-      taxRate: mapTaxRate[costItem.item.taxRate],
       type: mapItemType[costItem.item.type],
     },
     quantity: costItem.quantity.toString(),
@@ -66,6 +65,7 @@ const mapInvoice = (invoice: Invoice): graphqlTypes.Invoice => ({
   total: invoice.total.toString(),
   subtotal: invoice.subtotal.toString(),
   currency: invoice.currency,
+  finalized: invoice.finalized,
 });
 
 export default {

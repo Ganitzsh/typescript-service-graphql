@@ -2,11 +2,9 @@ import { ResourceID } from '../../common/id';
 import { Invoice } from '../invoice/type';
 import { Modifier } from '../modifier/type';
 
-// Find the names for these
-export enum TaxRate {
-  None,
-  Low,
-  Standard,
+export interface TaxRate {
+  label: string;
+  value: number;
 }
 
 export enum ItemType {

@@ -17,7 +17,7 @@ export type Scalars = {
 export type Address = {
   __typename?: 'Address';
   addressLine1: Scalars['String'];
-  addressLine2: Scalars['String'];
+  addressLine2?: Maybe<Scalars['String']>;
   city: Scalars['String'];
   country: Scalars['String'];
   zipCode: Scalars['String'];
@@ -41,6 +41,7 @@ export type CostItem = {
 export type Invoice = Node & {
   __typename?: 'Invoice';
   currency: Scalars['String'];
+  finalized: Scalars['Boolean'];
   id: Scalars['ID'];
   issuer?: Maybe<Company>;
   modifier?: Maybe<Modifier>;
@@ -79,6 +80,7 @@ export enum ItemType {
 export type Modifier = {
   __typename?: 'Modifier';
   category: ModifierCategory;
+  label: Scalars['String'];
   type: ModifierType;
   value: Scalars['String'];
 };
@@ -127,11 +129,11 @@ export type QueryInvoicesArgs = {
   args?: InputMaybe<InvoicePageInput>;
 };
 
-export enum TaxRate {
-  Low = 'Low',
-  None = 'None',
-  Standard = 'Standard'
-}
+export type TaxRate = {
+  __typename?: 'TaxRate';
+  label: Scalars['String'];
+  value: Scalars['String'];
+};
 
 
 
@@ -221,7 +223,7 @@ export type ResolversTypes = {
   Phase: ResolverTypeWrapper<Phase>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  TaxRate: TaxRate;
+  TaxRate: ResolverTypeWrapper<TaxRate>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -242,11 +244,12 @@ export type ResolversParentTypes = {
   Phase: Phase;
   Query: {};
   String: Scalars['String'];
+  TaxRate: TaxRate;
 };
 
 export type AddressResolvers<ContextType = any, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
   addressLine1?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  addressLine2?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  addressLine2?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   zipCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -270,6 +273,7 @@ export type CostItemResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type InvoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Invoice'] = ResolversParentTypes['Invoice']> = {
   currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  finalized?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   issuer?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType>;
   modifier?: Resolver<Maybe<ResolversTypes['Modifier']>, ParentType, ContextType>;
@@ -298,6 +302,7 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type ModifierResolvers<ContextType = any, ParentType extends ResolversParentTypes['Modifier'] = ResolversParentTypes['Modifier']> = {
   category?: Resolver<ResolversTypes['ModifierCategory'], ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['ModifierType'], ParentType, ContextType>;
   value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -327,6 +332,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   invoices?: Resolver<ResolversTypes['InvoicePage'], ParentType, ContextType, Partial<QueryInvoicesArgs>>;
 };
 
+export type TaxRateResolvers<ContextType = any, ParentType extends ResolversParentTypes['TaxRate'] = ResolversParentTypes['TaxRate']> = {
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Address?: AddressResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
@@ -339,5 +350,6 @@ export type Resolvers<ContextType = any> = {
   Node?: NodeResolvers<ContextType>;
   Phase?: PhaseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  TaxRate?: TaxRateResolvers<ContextType>;
 };
 
