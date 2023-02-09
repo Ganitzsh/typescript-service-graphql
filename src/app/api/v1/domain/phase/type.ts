@@ -14,6 +14,10 @@ export enum ItemType {
   Quantity,
 }
 
+// Depending on the the importance of
+// items in the domain, this might need its
+// own service and logic. For now, it's fine
+// to make it a sub type of Phase.
 export interface Item {
   type: ItemType;
   name: string;

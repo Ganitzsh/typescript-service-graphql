@@ -8,6 +8,7 @@ import { PhaseService } from '../../domain/phase';
 import { ItemType, Phase, TaxRate } from '../../domain/phase/type';
 
 import * as graphqlTypes from '../schema/codegen';
+
 import { Context } from '../context';
 
 const mapTaxRate: Record<TaxRate, graphqlTypes.TaxRate> = {
@@ -44,6 +45,7 @@ const mapPhase = (phase: Phase): graphqlTypes.Phase => ({
     ...costItem,
     item: {
       ...costItem.item,
+      rate: costItem.item.rate.toString(),
       taxRate: mapTaxRate[costItem.item.taxRate],
       type: mapItemType[costItem.item.type],
     },
@@ -63,30 +65,64 @@ const mapInvoice = (invoice: Invoice): graphqlTypes.Invoice => ({
   phases: [],
   total: invoice.total.toString(),
   subtotal: invoice.subtotal.toString(),
+  currency: invoice.currency,
 });
 
 export default {
   Query: {
-    invoices: async (_, { args }) => {
-      const { data, cursor } = await InvoiceService.listInvoices({
-        limit: args?.limit,
-        cursor: args?.cursor,
-      });
+    invoices: async (_, { args }, context) => {
+      const { data, total, cursor } = await InvoiceService.listInvoices(
+        context,
+        context.repository.invoice,
+        {
+          limit: args?.limit,
+          cursor: args?.cursor,
+        },
+      );
 
       return {
         data: data.map((invoice) => mapInvoice(invoice)),
+        total,
         cursor,
       };
     },
-    invoice: async (_, args) => {
-      const invoice = await InvoiceService.retrieveInvoice(args.id);
+    invoice: async (_, args, context) => {
+      const invoice = await InvoiceService.retrieveInvoice(
+        context,
+        context.repository.invoice,
+        args.id,
+      );
 
       return mapInvoice(invoice);
     },
   } as Pick<graphqlTypes.QueryResolvers<Context>, 'invoices' | 'invoice'>,
   Invoice: {
-    phases: async (invoice) => {
-      const phases = await PhaseService.retrievePhases(invoice.id);
+    recipient: async (invoice, _, context) => {
+      const { recipient } = await InvoiceService.retrieveInvoiceParties(
+        context,
+        context.repository.invoice,
+        context.repository.company,
+        invoice.id,
+      );
+
+      return recipient;
+    },
+    issuer: async (invoice, _, context) => {
+      const { issuer } = await InvoiceService.retrieveInvoiceParties(
+        context,
+        context.repository.invoice,
+        context.repository.company,
+        invoice.id,
+      );
+
+      return issuer;
+    },
+    phases: async (invoice, _, context) => {
+      const phases = await PhaseService.retrievePhasesForInvoice(
+        context,
+        context.repository.phase,
+        invoice.id,
+      );
 
       return phases.map((phase) => mapPhase(phase));
     },

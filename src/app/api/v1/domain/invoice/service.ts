@@ -1,33 +1,50 @@
+import { Context } from '../../common/context';
 import { ResourceID } from '../../common/id';
-import { Page } from '../../common/page';
-import { ModifierCategory, ModifierType } from '../modifier/type';
+import { Company } from '../company';
+import { CompanyRepository } from '../company/repository';
+import { InvoiceRepository, InvoicesPage } from './repository';
 
 import { Invoice } from './type';
 
-type InvoicePage = Page<Invoice>;
-
-export const listInvoices = async (_: {
-  limit?: number;
-  cursor?: ResourceID;
-}): Promise<InvoicePage> => {
-  return {
-    data: [],
-    total: 0,
-    cursor: undefined,
-  };
+export const listInvoices = async (
+  context: Context,
+  repository: InvoiceRepository,
+  page?: {
+    limit?: number;
+    cursor?: ResourceID;
+  },
+): Promise<InvoicesPage> => {
+  return repository.find(context, {
+    page,
+  });
 };
 
-export const retrieveInvoice = async (id: ResourceID): Promise<Invoice> => {
+export const retrieveInvoice = async (
+  context: Context,
+  repository: InvoiceRepository,
+  id: ResourceID,
+): Promise<Invoice> => {
+  return repository.findById(context, id);
+};
+
+export const retrieveInvoiceParties = async (
+  context: Context,
+  invoiceRepository: InvoiceRepository,
+  companyRepository: CompanyRepository,
+  invoiceId: ResourceID,
+): Promise<{
+  issuer: Company;
+  recipient: Company;
+}> => {
+  const invoice = await invoiceRepository.findById(context, invoiceId);
+
+  const [issuer, recipient] = await Promise.all([
+    companyRepository.findById(context, invoice.issuer),
+    companyRepository.findById(context, invoice.recipient),
+  ]);
+
   return {
-    id,
-    phases: ['123'],
-    modifier: {
-      type: ModifierType.Amount,
-      category: ModifierCategory.Fee,
-      value: 34.23,
-    },
-    subtotal: 123.0,
-    total: 144.0,
-    currency: 'EUR',
+    issuer,
+    recipient,
   };
 };

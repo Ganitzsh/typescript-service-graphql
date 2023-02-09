@@ -12,4 +12,10 @@ export interface Invoice {
   // Sum of phases
   total: number;
   currency: string;
+
+  issuer: ResourceID;
+  recipient: ResourceID;
+
+  dueDate?: Date;
+  finalized: boolean;
 }

@@ -14,6 +14,22 @@ export type Scalars = {
   Float: number;
 };
 
+export type Address = {
+  __typename?: 'Address';
+  addressLine1: Scalars['String'];
+  addressLine2: Scalars['String'];
+  city: Scalars['String'];
+  country: Scalars['String'];
+  zipCode: Scalars['String'];
+};
+
+export type Company = {
+  __typename?: 'Company';
+  address: Address;
+  name: Scalars['String'];
+  taxNumber: Scalars['String'];
+};
+
 export type CostItem = {
   __typename?: 'CostItem';
   item: Item;
@@ -24,9 +40,12 @@ export type CostItem = {
 
 export type Invoice = Node & {
   __typename?: 'Invoice';
+  currency: Scalars['String'];
   id: Scalars['ID'];
+  issuer?: Maybe<Company>;
   modifier?: Maybe<Modifier>;
   phases: Array<Phase>;
+  recipient?: Maybe<Company>;
   subtotal: Scalars['String'];
   total: Scalars['String'];
 };
@@ -35,6 +54,7 @@ export type InvoicePage = {
   __typename?: 'InvoicePage';
   cursor?: Maybe<Scalars['ID']>;
   data: Array<Invoice>;
+  total: Scalars['Int'];
 };
 
 export type InvoicePageInput = {
@@ -46,6 +66,7 @@ export type Item = {
   __typename?: 'Item';
   description: Scalars['String'];
   name: Scalars['String'];
+  rate: Scalars['String'];
   taxRate: TaxRate;
   type: ItemType;
 };
@@ -181,7 +202,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Address: ResolverTypeWrapper<Address>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Company: ResolverTypeWrapper<Company>;
   CostItem: ResolverTypeWrapper<CostItem>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
@@ -203,7 +226,9 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Address: Address;
   Boolean: Scalars['Boolean'];
+  Company: Company;
   CostItem: CostItem;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
@@ -219,6 +244,22 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
 };
 
+export type AddressResolvers<ContextType = any, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
+  addressLine1?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  addressLine2?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  zipCode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
+  address?: Resolver<ResolversTypes['Address'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  taxNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type CostItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['CostItem'] = ResolversParentTypes['CostItem']> = {
   item?: Resolver<ResolversTypes['Item'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -228,9 +269,12 @@ export type CostItemResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type InvoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Invoice'] = ResolversParentTypes['Invoice']> = {
+  currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  issuer?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType>;
   modifier?: Resolver<Maybe<ResolversTypes['Modifier']>, ParentType, ContextType>;
   phases?: Resolver<Array<ResolversTypes['Phase']>, ParentType, ContextType>;
+  recipient?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType>;
   subtotal?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   total?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -239,12 +283,14 @@ export type InvoiceResolvers<ContextType = any, ParentType extends ResolversPare
 export type InvoicePageResolvers<ContextType = any, ParentType extends ResolversParentTypes['InvoicePage'] = ResolversParentTypes['InvoicePage']> = {
   cursor?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   data?: Resolver<Array<ResolversTypes['Invoice']>, ParentType, ContextType>;
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = {
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  rate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   taxRate?: Resolver<ResolversTypes['TaxRate'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['ItemType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -282,6 +328,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type Resolvers<ContextType = any> = {
+  Address?: AddressResolvers<ContextType>;
+  Company?: CompanyResolvers<ContextType>;
   CostItem?: CostItemResolvers<ContextType>;
   Invoice?: InvoiceResolvers<ContextType>;
   InvoicePage?: InvoicePageResolvers<ContextType>;

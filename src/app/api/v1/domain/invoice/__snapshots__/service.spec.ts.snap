@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`invoice service listInvoices data persistency returns a page of invoices 1`] = `
+{
+  "cursor": undefined,
+  "data": [
+    {
+      "currency": "EUR",
+      "finalized": true,
+      "id": "1",
+      "issuer": "1",
+      "phases": [
+        "1",
+        "2",
+      ],
+      "recipient": "2",
+      "subtotal": 21,
+      "total": 42,
+    },
+    {
+      "currency": "EUR",
+      "finalized": true,
+      "id": "2",
+      "issuer": "1",
+      "phases": [
+        "1",
+        "2",
+      ],
+      "recipient": "2",
+      "subtotal": 21,
+      "total": 42,
+    },
+    {
+      "currency": "EUR",
+      "finalized": true,
+      "id": "3",
+      "issuer": "1",
+      "phases": [
+        "1",
+        "2",
+      ],
+      "recipient": "2",
+      "subtotal": 21,
+      "total": 42,
+    },
+  ],
+  "total": 3,
+}
+`;
+
+exports[`invoice service retrieveInvoiceParties data persistency returns the issuer and recipient successfully 1`] = `
+{
+  "issuer": {
+    "address": {
+      "addressLine1": "test address line 1",
+      "addressLine2": "test address line 2",
+      "city": "test city",
+      "country": "test country",
+      "zipCode": "test zip code",
+    },
+    "id": "A",
+    "name": "test company",
+    "taxNumber": "test tax id",
+  },
+  "recipient": {
+    "address": {
+      "addressLine1": "test address line 1",
+      "addressLine2": "test address line 2",
+      "city": "test city",
+      "country": "test country",
+      "zipCode": "test zip code",
+    },
+    "id": "B",
+    "name": "test company",
+    "taxNumber": "test tax id",
+  },
+}
+`;

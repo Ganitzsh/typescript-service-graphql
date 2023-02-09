@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["esnext"],
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["es2017"],
     "moduleResolution": "node",
     "rootDir": "./src",
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "alwaysStrict": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
@@ -21,9 +21,8 @@
     "strictNullChecks": false
   },
   "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
+    "esm": true
   },
-  "include": ["./src/**/*", "./codegen.ts"],
-  "exclude": ["node_modules", "src/**/*.spec.ts"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "src/**/*.spec.ts", "./jest.config.ts"]
 }

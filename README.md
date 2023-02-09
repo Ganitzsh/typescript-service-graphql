@@ -1,3 +1,9 @@
-# Hello there
+# Rodeo take home exercise
 
-This boilerplate contains a structure I use often to write graphql services.
+## Getting started
+
+To start the API run the following command:
+
+```
+$> npm install && npm start
+```

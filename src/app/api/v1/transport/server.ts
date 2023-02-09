@@ -12,16 +12,20 @@ import { logger } from '../../../infrastructure/logger';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import { Context } from './context';
+import {
+  companyInMemoryRepo,
+  invoiceInMemoryRepo,
+  phaseInMemoryRepo,
+} from '../adapters';
 
 const onSignal = async (): Promise<void> => {
-  logger.debug('server is starting cleanup');
   // TODO: Add cleanup logic
+  logger.debug('server is starting cleanup');
 };
 
 const onHealthCheck = async (): Promise<void> => {
   // TODO: Add healthcheck logic
   logger.debug('healthcheck ok');
-  return;
 };
 
 export const listen = async () => {
@@ -48,7 +52,16 @@ export const listen = async () => {
     cors<cors.CorsRequest>(),
     bodyParser.json({ limit: '50mb' }),
     expressMiddleware(server, {
-      context: async ({ req }) => ({ token: req.headers.token }),
+      context: async ({ req }) => ({
+        traceId: req.headers.traceId as string,
+        token: req.headers.token as string,
+        userId: undefined,
+        repository: {
+          invoice: invoiceInMemoryRepo,
+          company: companyInMemoryRepo,
+          phase: phaseInMemoryRepo,
+        },
+      }),
     }),
   );
 
@@ -59,5 +72,5 @@ export const listen = async () => {
     httpServer.listen({ port, host }, resolve),
   );
 
-  logger.debug(`🚀 Server ready at 0.0.0.0:${port}`);
+  logger.info(`Server ready at 0.0.0.0:${port}`);
 };

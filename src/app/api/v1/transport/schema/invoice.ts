@@ -36,6 +36,7 @@ const item = gql`
     name: String!
     description: String!
     type: ItemType!
+    rate: String!
     taxRate: TaxRate!
   }
 `;
@@ -59,9 +60,28 @@ const phase = gql`
   }
 `;
 
+export const address = gql`
+  type Address {
+    addressLine1: String!
+    addressLine2: String!
+    city: String!
+    country: String!
+    zipCode: String!
+  }
+`;
+
+export const company = gql`
+  type Company {
+    name: String!
+    address: Address!
+    taxNumber: String!
+  }
+`;
+
 export const invoice = gql`
   type InvoicePage {
     data: [Invoice!]!
+    total: Int!
     cursor: ID
   }
 
@@ -73,6 +93,10 @@ export const invoice = gql`
 
     total: String!
     subtotal: String!
+    currency: String!
+
+    issuer: Company
+    recipient: Company
   }
 `;
 
@@ -99,6 +123,8 @@ const schema = mergeTypeDefs([
   modifier,
   item,
   phase,
+  address,
+  company,
   invoice,
   query,
   mutation,
