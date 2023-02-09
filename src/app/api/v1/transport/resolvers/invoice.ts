@@ -45,16 +45,16 @@ const mapPhase = (phase: Phase): graphqlTypes.Phase => ({
         label: costItem.item.taxRate.label,
         value: (costItem.item.taxRate.value * 100).toFixed(1),
       },
-      rate: costItem.item.rate.toString(),
+      rate: costItem.item.rate.toFixed(2),
       type: mapItemType[costItem.item.type],
     },
-    quantity: costItem.quantity.toString(),
-    total: costItem.total.toString(),
-    subtotal: costItem.subtotal.toString(),
+    quantity: costItem.quantity.toFixed(2),
+    total: costItem.total.toFixed(2),
+    subtotal: costItem.subtotal.toFixed(2),
   })),
   modifier: phase.modifier ? mapModifier(phase.modifier) : undefined,
-  total: phase.total.toString(),
-  subtotal: phase.subtotal.toString(),
+  total: phase.total.toFixed(2),
+  subtotal: phase.subtotal.toFixed(2),
 });
 
 const mapInvoice = (invoice: Invoice): graphqlTypes.Invoice => ({
@@ -62,8 +62,8 @@ const mapInvoice = (invoice: Invoice): graphqlTypes.Invoice => ({
   id: invoice.id,
   modifier: invoice.modifier ? mapModifier(invoice.modifier) : undefined,
   phases: [],
-  total: invoice.total.toString(),
-  subtotal: invoice.subtotal.toString(),
+  total: invoice.total.toFixed(2),
+  subtotal: invoice.subtotal.toFixed(2),
   currency: invoice.currency,
   finalized: invoice.finalized,
 });

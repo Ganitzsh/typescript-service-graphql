@@ -11,23 +11,33 @@ import { ModifierCategory, ModifierType } from '../domain/modifier/type';
 const database: Invoice[] = [
   {
     id: '1',
-    phases: ['1'],
+    phases: ['1', '2'],
     modifier: {
       type: ModifierType.Amount,
       category: ModifierCategory.Fee,
       value: 34.23,
       label: 'Service fee',
     },
-    subtotal: 123.0,
-    total: 144.0,
+    subtotal: 1841.47,
+    total: 2057.78,
     currency: 'EUR',
     issuer: '1',
     recipient: '2',
     finalized: true,
   },
+  {
+    id: '2',
+    phases: ['3'],
+    subtotal: 0.0,
+    total: 0.0,
+    currency: 'EUR',
+    issuer: '2',
+    recipient: '1',
+    finalized: false,
+  },
 ];
 
-const index: { [key: ResourceID]: number } = { '1': 0 };
+const index: { [key: ResourceID]: number } = { '1': 0, '2': 1 };
 
 const InvoiceNotFound = new Error('invoice not found');
 
