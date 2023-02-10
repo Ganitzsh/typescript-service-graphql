@@ -3,6 +3,7 @@ import { ResourceID } from '../common/id';
 import { Invoice } from '../domain/invoice';
 import {
   GetInvoicesFilter,
+  InvoiceNotFound,
   InvoiceRepository,
   InvoicesPage,
 } from '../domain/invoice/repository';
@@ -42,8 +43,6 @@ const database: Invoice[] = [
 ];
 
 const index: { [key: ResourceID]: number } = { '1': 0, '2': 1 };
-
-const InvoiceNotFound = new Error('invoice not found');
 
 const find = async (
   _: Context,

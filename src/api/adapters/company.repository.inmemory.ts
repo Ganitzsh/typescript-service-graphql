@@ -2,6 +2,7 @@ import { Context } from '../common/context';
 import { ResourceID } from '../common/id';
 import { CompanyRepository } from '../domain/company/repository';
 import { Company } from '../domain/company/type';
+import { CompanyNotFound } from '../domain/phase/repository';
 
 /**
  * The In-Memory Company Repository is a simple implementation of the CompanyRepository
@@ -33,8 +34,6 @@ const database: Company[] = [
 ];
 
 const index: { [key: ResourceID]: number } = { '1': 0, '2': 1 };
-
-export const CompanyNotFound = new Error('company not found');
 
 const findById = async (_: Context, id: ResourceID): Promise<Company> => {
   const company = database[index[id]];

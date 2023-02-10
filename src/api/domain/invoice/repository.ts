@@ -6,6 +6,8 @@ import { Invoice } from './type';
 
 export type InvoicesPage = Page<Invoice>;
 
+export const InvoiceNotFound = new Error('invoice not found');
+
 export interface GetInvoicesFilter {
   page?: {
     limit?: number;

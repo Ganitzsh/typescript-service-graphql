@@ -4,6 +4,10 @@ import gql from 'graphql-tag';
 import invoice from './invoice';
 
 const typeDefs = gql`
+  """
+  Nodes are the building blocks of the graph exposed
+  by this API
+  """
   interface Node {
     id: ID!
   }
