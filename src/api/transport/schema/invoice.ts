@@ -2,6 +2,10 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 import gql from 'graphql-tag';
 
 const taxRate = gql`
+  """
+  The tax rate is a percentage value representing
+  any tax that can be applied to a cost item.
+  """
   type TaxRate {
     label: String!
     value: String!
@@ -18,6 +22,10 @@ const modifier = gql`
     Fee
   }
 
+  """
+  Modifiers represent a one-off fee or discount that can be
+  applied to a Phase or the whole Invoice
+  """
   type Modifier {
     type: ModifierType!
     category: ModifierCategory!
@@ -32,6 +40,10 @@ const item = gql`
     Quantity
   }
 
+  """
+  Items are the building blocks of a Phase. They represent
+  a service or product that can be billed to a client.
+  """
   type Item {
     name: String!
     description: String!
@@ -42,6 +54,10 @@ const item = gql`
 `;
 
 const phase = gql`
+  """
+  CostItems represent a single item in a Phase. They are
+  embedding an item and its calculated cost and quantity.
+  """
   type CostItem {
     item: Item!
     quantity: String!
@@ -49,6 +65,10 @@ const phase = gql`
     subtotal: String!
   }
 
+  """
+  Phases are a collection of CostItems that can be billed. It is
+  possible to attach a Modifier to it as well.
+  """
   type Phase implements Node {
     id: ID!
 
@@ -71,6 +91,9 @@ export const address = gql`
 `;
 
 export const company = gql`
+  """
+  Company is a legal entity that can be invoiced.
+  """
   type Company {
     name: String!
     address: Address!
@@ -85,6 +108,9 @@ export const invoice = gql`
     cursor: ID
   }
 
+  """
+  Invoice is a collection of Phases that can be billed to a client.
+  """
   type Invoice implements Node {
     id: ID!
 
@@ -98,6 +124,9 @@ export const invoice = gql`
     issuer: Company
     recipient: Company
 
+    """
+    When this is true, the invoice has been finalized and can no longer be edited.
+    """
     finalized: Boolean!
   }
 `;
@@ -109,7 +138,14 @@ export const query = gql`
   }
 
   extend type Query {
+    """
+    The invoices query returns a paginated list of invoices.
+    """
     invoices(args: InvoicePageInput): InvoicePage!
+
+    """
+    The invoice query returns a single invoice by its ID.
+    """
     invoice(id: ID!): Invoice!
   }
 `;

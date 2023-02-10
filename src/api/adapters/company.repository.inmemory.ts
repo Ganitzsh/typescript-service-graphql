@@ -3,6 +3,10 @@ import { ResourceID } from '../common/id';
 import { CompanyRepository } from '../domain/company/repository';
 import { Company } from '../domain/company/type';
 
+/**
+ * The In-Memory Company Repository is a simple implementation of the CompanyRepository
+ */
+
 const database: Company[] = [
   {
     id: '1',

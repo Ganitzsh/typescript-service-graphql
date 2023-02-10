@@ -8,6 +8,10 @@ import {
 } from '../domain/invoice/repository';
 import { ModifierCategory, ModifierType } from '../domain/modifier/type';
 
+/**
+ * The In-Memory Invoice Repository is a simple implementation of the InvoiceRepository
+ */
+
 const database: Invoice[] = [
   {
     id: '1',

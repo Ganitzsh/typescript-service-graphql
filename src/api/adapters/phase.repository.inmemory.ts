@@ -4,6 +4,10 @@ import { Phase } from '../domain/phase';
 import { PhaseRepository } from '../domain/phase/repository';
 import { ItemType } from '../domain/phase/type';
 
+/**
+ * The In-Memory Phase Repository is a simple implementation of the PhaseRepository
+ */
+
 type InvoiceID = ResourceID;
 
 const database: Phase[] = [

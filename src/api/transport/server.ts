@@ -7,7 +7,7 @@ import http from 'http';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
-import { logger } from '../../../infrastructure/logger';
+import { logger } from '../infrastructure/logger';
 
 import typeDefs from './schema';
 import resolvers from './resolvers';

@@ -7,9 +7,11 @@ export interface Invoice {
   phases: ResourceID[];
   modifier?: Modifier;
 
-  // Sum of phases + modifier
+  // This value is computed when phases are modified
+  // and not at runtime.
   subtotal: number;
-  // Sum of phases
+  // This value is computed when phases are modified
+  // and not at runtime.
   total: number;
   currency: string;
 

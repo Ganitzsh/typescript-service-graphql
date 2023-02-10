@@ -37,9 +37,11 @@ export interface Phase {
   items: CostItem[];
   modifier?: Modifier;
 
-  // Sum of items phases + modifier
+  // This value is computed when the cost items are modified
+  // and not at runtime.
   subtotal: number;
-  // Sum of items
+  // This value is computed when the cost items are modified
+  // and not at runtime.
   total: number;
 
   invoice?: ResourceID | Invoice;

@@ -1,3 +1,3 @@
-import * as app from './app';
+import * as api from './api';
 
-app.run();
+api.run();
