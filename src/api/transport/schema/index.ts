@@ -1,8 +1,6 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import gql from 'graphql-tag';
 
-import invoice from './invoice';
-
 const typeDefs = gql`
   """
   Nodes are the building blocks of the graph exposed
@@ -21,4 +19,4 @@ const typeDefs = gql`
   }
 `;
 
-export default mergeTypeDefs([invoice, typeDefs]);
+export default mergeTypeDefs([typeDefs]);

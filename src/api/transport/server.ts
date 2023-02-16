@@ -12,19 +12,13 @@ import { logger } from '../infrastructure/logger';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 import { Context } from './context';
-import {
-  companyInMemoryRepo,
-  invoiceInMemoryRepo,
-  phaseInMemoryRepo,
-} from '../adapters';
+import { tracing } from '../infrastructure/tracer';
 
 const onSignal = async (): Promise<void> => {
-  // TODO: Add cleanup logic
   logger.debug('server is starting cleanup');
 };
 
 const onHealthCheck = async (): Promise<void> => {
-  // TODO: Add healthcheck logic
   logger.debug('healthcheck ok');
 };
 
@@ -53,14 +47,8 @@ export const listen = async () => {
     bodyParser.json({ limit: '50mb' }),
     expressMiddleware(server, {
       context: async ({ req }) => ({
-        traceId: req.headers.traceId as string,
+        traceId: tracing.getCurrentSpan().spanContext()?.traceId,
         token: req.headers.token as string,
-        userId: undefined,
-        repository: {
-          invoice: invoiceInMemoryRepo,
-          company: companyInMemoryRepo,
-          phase: phaseInMemoryRepo,
-        },
       }),
     }),
   );

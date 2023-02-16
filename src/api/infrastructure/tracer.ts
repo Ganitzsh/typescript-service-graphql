@@ -35,6 +35,7 @@ export const tracing: typeof opentelemetry & {
   getCurrentSpan: (): Span | undefined =>
     tracing.trace.getSpan(tracing.context.active()),
 };
+
 export const tracer = opentelemetry.trace.getTracer(
   `${env.serviceName}-tracer`,
 );
