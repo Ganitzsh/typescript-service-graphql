@@ -22,11 +22,11 @@ if (!env.isProduction) {
   provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 }
 
-provider.register();
-
 registerInstrumentations({
   instrumentations: [new HttpInstrumentation(), new ExpressInstrumentation()],
 });
+
+provider.register();
 
 export const tracing: typeof opentelemetry & {
   getCurrentSpan(): Span | undefined;
@@ -35,6 +35,7 @@ export const tracing: typeof opentelemetry & {
   getCurrentSpan: (): Span | undefined =>
     tracing.trace.getSpan(tracing.context.active()),
 };
+
 export const tracer = opentelemetry.trace.getTracer(
   `${env.serviceName}-tracer`,
 );
