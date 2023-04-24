@@ -16,7 +16,7 @@
     "codegen": "graphql-codegen --config codegen.yaml"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "3.0.0",
+    "@graphql-codegen/cli": "3.3.1",
     "@graphql-codegen/client-preset": "^2.0.0",
     "@graphql-codegen/typescript": "3.0.0",
     "@graphql-codegen/typescript-resolvers": "3.0.0",
